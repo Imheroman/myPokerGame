@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class User {
     private int turnNumber;
     private ArrayList<Card> userCards;
-    private boolean gaming = true;
+    private boolean toBeOrDie = true;
 
     public User() {
 
@@ -35,5 +35,9 @@ public class User {
 
     public void setCard(ArrayList<Card> cards) {
         this.userCards = cards;
+    }
+
+    public void setToBeOrDie() {
+        this.toBeOrDie = false;
     }
 }

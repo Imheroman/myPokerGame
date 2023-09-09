@@ -9,13 +9,13 @@ public class Card {
         this.suit = suit;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public Suit getSuit() {
-        return suit;
-    }
+//    public String getNumber() {
+//        return number;
+//    }
+//
+//    public Suit getSuit() {
+//        return suit;
+//    }
 
     @Override
     public String toString() {
