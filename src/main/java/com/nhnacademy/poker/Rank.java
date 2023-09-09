@@ -20,11 +20,16 @@ public class Rank {
             String num = card.getNumber();
 
             for (int index = 0; index < cardIndex.length; index++) {
-                if (cardIndex.equals(num)) {
+                if (cardIndex[index].equals(num)) {
                     cardIndexCount[index]++;
                     break;
                 }
             }
+        }
+
+        System.out.print("User" + user.getTurnNumber() + " Card Num: ");
+        for (int index = 0; index < cardIndex.length; index++) {
+            System.out.print("'" + cardIndex[index] + "':" + cardIndexCount[index] + " ");
         }
 
         return checkRank();
@@ -50,15 +55,15 @@ public class Rank {
 //        "Straight Flush", "Four Card", "Full House", "Flush", "Straight", "Triple", "Two Pair", "One Par", "Top"
 
         if (bigNumber == 4) {
-            setRankIndex(1);
+            this.setRankIndex(1);
         } else if (bigNumber == 3) {
-            setRankIndex(5);
-        } else if (bigNumber == 2 && pairCheck == 2) {
-            setRankIndex(6);
+            this.setRankIndex(5);
+        } else if (bigNumber == 2 && pairCheck >= 2) {
+            this.setRankIndex(6);
         } else if (bigNumber == 2 && pairCheck == 1) {
-            setRankIndex(7);
+            this.setRankIndex(7);
         } else if (bigNumber == 1) {
-            setRankIndex(8);
+            this.setRankIndex(8);
         }
 
         return this.getRankIndex();

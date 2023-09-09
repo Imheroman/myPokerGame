@@ -9,7 +9,6 @@ public class Table {
     private ArrayList<User> users;
     private int size = 51;
     private int turnNumber = 1;
-    private Rank rank = new Rank();
     private final String setGameComment =
             "=====================NHN 오락실에 오신 걸 환영합니다. 7포커 게임을 시작합니다.=====================";
     private final String[] rankList =
@@ -95,7 +94,7 @@ public class Table {
 
     private String getWinner() {
         ArrayList<User> userGroup = this.getUsers();
-        StringBuilder winner = new StringBuilder().append("Winner is User");
+        StringBuilder winner = new StringBuilder();
         int userIndex = 0;
         int sameUserIndex = 0;
         int highest = 100;
@@ -107,22 +106,26 @@ public class Table {
         } else {
             for (int index = 0; index < userGroup.size(); index++) {
                 User user = userGroup.get(index);
-                int rankIndex = rank.getRank(user);
+                int rankIndex = new Rank().getRank(user);
+                System.out.println("RankIndex: " + rankIndex);
+
                 if (highest > rankIndex) {
                     highest = rankIndex;
-                    userIndex = index;
+                    userIndex = index + 1;
                     countSameRank = 0;
                 } else if (highest == rankIndex) {
-                    sameUserIndex = index;
+                    sameUserIndex = index + 1;
                     countSameRank++;
                 }
             }
         }
 
         if (countSameRank == 0) {
-            winner.append(userIndex).append("with ").append(rankList[highest]);
+            winner.append("Winner is User").append(userIndex).append(" with ").append(rankList[highest]);
         } else {
-            winner.append(userIndex).append(" and ").append("User").append(sameUserIndex).append(" are drawed");
+            System.out.println(countSameRank);
+            winner.append("User").append(userIndex).append(" and ").append("User").append(sameUserIndex)
+                    .append(" are drawed with ").append(rankList[highest]);
         }
 
         return winner.toString();
