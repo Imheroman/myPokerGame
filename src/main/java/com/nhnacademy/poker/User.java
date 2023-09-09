@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class User {
     private int turnNumber;
     private ArrayList<Card> userCards;
-    private boolean toBeOrDie = true;
+    private String rank;
 
     public User() {
 
@@ -20,7 +20,7 @@ public class User {
 
         sb.append("User").append(getTurnNumber()).append(": ");
         for (int index = 0; index < userCards.size(); index++) {
-            sb.append(userCards.get(index)).append(" ");
+            sb.append("<").append(userCards.get(index)).append("> ");
         }
         System.out.println(sb.toString());
     }
@@ -33,11 +33,19 @@ public class User {
         this.turnNumber = turnNumber;
     }
 
+    public ArrayList<Card> getUserCards() {
+        return userCards;
+    }
+
     public void setCard(ArrayList<Card> cards) {
         this.userCards = cards;
     }
 
-    public void setToBeOrDie() {
-        this.toBeOrDie = false;
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 }

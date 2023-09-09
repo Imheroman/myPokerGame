@@ -9,16 +9,16 @@ public class Card {
         this.suit = suit;
     }
 
-//    public String getNumber() {
-//        return number;
-//    }
-//
-//    public Suit getSuit() {
-//        return suit;
-//    }
+    public String getNumber() {
+        return number;
+    }
+
+    public Suit getSuit() {
+        return suit;
+    }
 
     @Override
     public String toString() {
-        return suit.getSuit() + number;
+        return suit.getSuit() + " " + number;
     }
 }
