@@ -15,11 +15,6 @@ public enum Suit {
     public String getSuit() {
         return suit;
     }
-
-//    @Override
-//    public String toString() {
-//        return suit;
-//    }
 }
 
 

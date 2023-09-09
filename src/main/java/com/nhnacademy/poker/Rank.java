@@ -13,7 +13,7 @@ public class Rank {
 
     }
 
-    public int getRank(User user) {
+    private void countCardIndex(User user) {
         ArrayList<Card> cards = user.getUserCards();
 
         for (Card card : cards) {
@@ -26,16 +26,10 @@ public class Rank {
                 }
             }
         }
-
-        System.out.print("User" + user.getTurnNumber() + " Card Num: ");
-        for (int index = 0; index < cardIndex.length; index++) {
-            System.out.print("'" + cardIndex[index] + "':" + cardIndexCount[index] + " ");
-        }
-
-        return checkRank();
     }
 
-    private int checkRank() {
+    public int getRank(User user) {
+        countCardIndex(user);
         int[] numberGroup = this.getCardIndexCount();
         int bigNumber = 0;
         int pairCheck = 0;

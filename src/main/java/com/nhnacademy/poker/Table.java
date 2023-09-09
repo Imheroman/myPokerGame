@@ -29,13 +29,14 @@ public class Table {
             throw new IllegalArgumentException("카드의 수가 부족합니다.");
         } else {
             Card card = cards.get(this.getSize());
+            cards.remove(this.getSize());
             this.size--;
 
             return card;
         }
     }
 
-    private void participationUser(User user) {
+    private void participationUserInGame(User user) {
         int userTurnNumber = this.nextTurnNumber();
         user.setTurnNumber(userTurnNumber);
         System.out.println("User" + userTurnNumber + "(이)가 게임에 참가하였습니다. 카드를 분배하겠습니다.");
@@ -45,16 +46,15 @@ public class Table {
     }
 
     private ArrayList<Card> firstUserCardSetting() {
-        ArrayList<Card> tableCardList = this.getCards();
         ArrayList<Card> userCardList = new ArrayList<>(3);
 
         if (this.getSize() < 2) {
             throw new IllegalArgumentException("카드의 수가 부족합니다.");
         } else {
             for (int index = 0; index < 3; index++) {
-                Card card = tableCardList.get(index);
+                Card card = cards.get(size);
                 userCardList.add(card);
-                tableCardList.remove(card);
+                cards.remove(size);
                 size--;
             }
         }
@@ -66,52 +66,60 @@ public class Table {
         ArrayList<User> userSet = new ArrayList<>();
 
         for (User user : userGroup) {
-            this.baseUserSetting(user);
+            this.participationUserInGame(user);
+            user.printUserCards();
             userSet.add(user);
         }
+        System.out.println("================================================");
 
         return userSet;
     }
 
     public void game(User... userGroup) {
         this.users = usersSetting(userGroup);
-        int cardVolume = 3;
+        int firstCardVolume = 3;
         String winner = "";
 
-        while (this.users.size() > 1 && cardVolume < 7) {
+        while (this.users.size() > 1 && firstCardVolume < 7) {
             this.checkToBeOrDie();
+            if (this.users.size() <= 1) {
+                System.out.println("================================================");
+                break;
+            }
+
             for (User user : users) {
                 user.addCard(this.oneMoreCard());
                 user.printUserCards();
             }
-
-            cardVolume++;
+            System.out.println("================================================");
+            firstCardVolume++;
         }
 
-        winner = getWinner();
+        winner = whoIsWinner();
         System.out.println(winner);
     }
 
-    private String getWinner() {
+    private String whoIsWinner() {
         ArrayList<User> userGroup = this.getUsers();
         StringBuilder winner = new StringBuilder();
-        int userIndex = 0;
+        int userTurnNumber = 0;
         int sameUserIndex = 0;
         int highest = 100;
         int countSameRank = 0;
 
         if (userGroup.size() == 1) {
-            int userTurnNumber = userGroup.get(0).getTurnNumber();
-            winner.append(userTurnNumber);
+            userTurnNumber = userGroup.get(0).getTurnNumber();
+            winner.append("Winner is User").append(userTurnNumber).append(" because of only suvived ");
+
+            return winner.toString();
         } else {
             for (int index = 0; index < userGroup.size(); index++) {
                 User user = userGroup.get(index);
                 int rankIndex = new Rank().getRank(user);
-                System.out.println("RankIndex: " + rankIndex);
 
                 if (highest > rankIndex) {
                     highest = rankIndex;
-                    userIndex = index + 1;
+                    userTurnNumber = index + 1;
                     countSameRank = 0;
                 } else if (highest == rankIndex) {
                     sameUserIndex = index + 1;
@@ -121,10 +129,10 @@ public class Table {
         }
 
         if (countSameRank == 0) {
-            winner.append("Winner is User").append(userIndex).append(" with ").append(rankList[highest]);
+            winner.append("Winner is User").append(userTurnNumber).append(" with ").append(rankList[highest]);
         } else {
             System.out.println(countSameRank);
-            winner.append("User").append(userIndex).append(" and ").append("User").append(sameUserIndex)
+            winner.append("User").append(userTurnNumber).append(" and ").append("User").append(sameUserIndex)
                     .append(" are drawed with ").append(rankList[highest]);
         }
 
@@ -150,11 +158,6 @@ public class Table {
 
     }
 
-    private void baseUserSetting(User user) {
-        this.participationUser(user);
-        user.printUserCards();
-    }
-
     private int nextTurnNumber() {
         return this.turnNumber++;
     }
@@ -170,6 +173,4 @@ public class Table {
     public int getSize() {
         return size;
     }
-
-
 }
